@@ -1,19 +1,22 @@
-# Giai đoạn Runtime: Sử dụng Tomcat và JDK 17
-FROM tomcat:9.0-jdk17-temurin
+# Sử dụng Nginx làm web server
+FROM nginx:alpine
 
-# Xóa các ứng dụng demo mặc định của Tomcat
-RUN rm -rf /usr/local/tomcat/webapps/*
+# Xóa file cấu hình mặc định của Nginx
+RUN rm -rf /etc/nginx/conf.d/*
 
-# --- BƯỚC QUAN TRỌNG: COPY FILE WAR ---
+# Tạo file cấu hình Nginx đơn giản để phục vụ web tĩnh
+# Đây là một ví dụ đơn giản, bạn có thể cần file nginx.conf riêng nếu muốn cấu hình phức tạp
+RUN echo 'server { listen 80; root /usr/share/nginx/html; index index.html; }' > /etc/nginx/conf.d/default.conf
 
-# File .war của bạn phải nằm trong thư mục mà bạn chạy docker build
-# Giả sử file WAR đã build của bạn có tên là 'my_app.war'
-# THAY THẾ 'my_app.war' bằng tên file .war THỰC TẾ của dự án bạn muốn deploy.
+# Xóa các file mặc định của Nginx
+RUN rm -rf /usr/share/nginx/html/*
 
-COPY my_app.war /usr/local/tomcat/webapps/ROOT.war
+# COPY toàn bộ nội dung web của bạn (index.html, projects.html, css/, images/, js/)
+# từ thư mục gốc của dự án vào thư mục phục vụ web của Nginx
+COPY . /usr/share/nginx/html
 
-# Port mặc định của Tomcat là 8080
-EXPOSE 8080
+# Nginx lắng nghe trên port 80 mặc định
+EXPOSE 80
 
-# Tomcat sẽ tự động chạy khi container khởi động
-CMD ["catalina.sh", "run"]
+# Nginx tự động chạy
+CMD ["nginx", "-g", "daemon off;"]
