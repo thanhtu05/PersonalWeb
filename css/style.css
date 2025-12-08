@@ -1,34 +1,76 @@
-/* Thiết lập cơ bản */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f4f8;
-    color: #2c3e50;
-    transition: background-color 0.5s ease;
-    overflow-x: hidden; /* Ngăn cuộn ngang do các hiệu ứng */
+/*
+======================================================
+1. Variables & Base Setup
+======================================================
+*/
+:root {
+    /* Colors - Dark/Vibrant Theme */
+    --primary-color: #f1c40f;
+    --secondary-color: #e74c3c;
+    --dark-background: #2c3e50;
+    --background-light: #ecf0f1;
+    --background-card: #ffffff;
+    --text-dark: #34495e;
+    --text-light: #ecf0f1;
+    --shadow-heavy: rgba(0, 0, 0, 0.4);
+    --shadow-light: rgba(0, 0, 0, 0.15);
+
+    /* Animation Timing */
+    --anim-duration: 0.8s;
+    --anim-curve: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Container chính */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.7;
+    background-color: var(--background-light);
+    color: var(--text-dark);
+    transition: background-color 0.5s ease;
+    overflow-x: hidden;
+}
+
+/* Global Link Styles */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+a:hover {
+    color: var(--secondary-color);
+    text-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
+    border-bottom: none;
+}
+
+/* Main Content Container */
 .container {
     width: 90%;
     max-width: 1200px;
     margin: auto;
-    overflow: hidden;
-    padding: 30px 0;
+    padding: 40px 0;
 }
 
-/* Header và Navigation */
+/*
+======================================================
+2. Header & Navigation (Refined)
+======================================================
+*/
 header {
-    background: #2c3e50;
-    color: white;
-    padding: 15px 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    position: sticky; /* Sticky Header */
+    background: var(--dark-background);
+    color: var(--text-light);
+    padding: 20px 0;
+    box-shadow: 0 8px 16px var(--shadow-heavy);
+    position: sticky;
     top: 0;
-    z-index: 1000; /* Đảm bảo header nằm trên cùng */
-    animation: slideInTop 0.8s ease-out; /* Hiệu ứng tải trang cho header */
+    z-index: 1000;
+    animation: slideInTop var(--anim-duration) var(--anim-curve);
 }
 
 header nav {
@@ -41,254 +83,253 @@ header nav {
 }
 
 header .logo {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--primary-color);
+    text-shadow: 0 0 5px rgba(241, 196, 15, 0.8);
+    transition: all 0.5s ease;
+}
+
+header .logo:hover {
+    animation: pulse 1s infinite;
 }
 
 header ul {
     list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
 }
 
 header li a {
-    color: #ecf0f1;
-    text-decoration: none;
+    color: var(--text-light);
     text-transform: uppercase;
-    font-size: 16px;
-    padding: 8px 15px;
+    font-size: 17px;
+    padding: 10px 18px;
     margin: 0 5px;
     border-radius: 5px;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transition mượt hơn */
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
-/* Global Link Styles */
-a {
-    color: #3498db;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease, border-bottom 0.3s ease;
+/* Sliding underline effect */
+header li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--primary-color);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-out;
 }
 
-a:hover {
-    color: #e74c3c;
-    border-bottom: 2px solid #e74c3c;
+header li a:hover {
+    color: var(--primary-color);
 }
 
-header li a:hover,
+header li a:hover::after {
+    transform: translateX(0);
+}
+
+/* ACTIVE state styles */
 header li a.active {
-    color: #f1c40f;
-    background-color: rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px); /* Hiệu ứng nổi */
+    color: var(--primary-color);
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px var(--primary-color); /* Glow effect */
 }
 
-header li a.active {
-    border-bottom: 2px solid #f1c40f;
+/* Ensure active link always has the underline */
+header li a.active::after {
+    transform: translateX(0);
 }
 
-/* Phần Giới thiệu và Dự án */
+
+/*
+======================================================
+3. Headings & About Section (Base for Projects H1)
+======================================================
+*/
 #about h1,
-#projects h1 {
-    color: #2980b9;
-    font-size: 3.5em;
-    margin-bottom: 10px;
-    text-align: center;
-    animation: scaleIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Hiệu ứng scale lớn, nảy */
+#projects h1,
+#contact h1 {
+    color: var(--text-dark);
+    font-size: 4em;
+    font-weight: 300;
+    letter-spacing: 3px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    animation: scaleIn 1s var(--anim-curve);
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 #about h2,
 #projects h2 {
-    color: #34495e;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 5px;
+    color: var(--secondary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 8px;
     margin-top: 30px;
-    font-size: 1.8em;
-    animation: fadeIn 1.5s ease-out; /* Tải trang */
+    font-size: 2em;
+    font-weight: 600;
+    animation: fadeIn 1.5s ease-out;
 }
 
-.subtitle {
-    font-style: italic;
-    color: #7f8c8d;
-    margin-bottom: 40px;
-    text-align: center;
-    font-size: 1.1em;
-    animation: fadeIn 2s ease-out; /* Tải trang */
-}
-
-/* Table cho trang Giới Thiệu */
-#about table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 30px;
-    animation: slideInLeft 1.2s ease-out; /* Tải trang */
-}
-
-#about table td:first-child {
-    width: 250px;
-    text-align: center;
-}
-
-#about img {
-    border-radius: 50%;
-    border: 5px solid #bdc3c7;
-    box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
-    transition: transform 0.5s ease, box-shadow 0.5s ease;
-}
-
-#about img:hover {
-    transform: scale(1.1) rotate(5deg); /* Phóng to và xoay mạnh hơn */
-    box-shadow: 0 0 30px rgba(52, 152, 219, 0.8); /* Bóng đổ sáng hơn */
-}
-
-#about table td:last-child h1 {
-    font-size: 2.5em;
-    text-align: left;
-    color: #2c3e50;
-    margin: 0;
-}
-
+/* Placeholder styles for About/Contact section compatibility */
 #about p, .contact-info p {
     font-size: 1.1em;
     color: #34495e;
-    transition: transform 0.3s ease;
 }
 
-/* Hiệu ứng khi di chuột qua thông tin liên hệ */
-.contact-info p:hover {
-    color: #e74c3c;
-    transform: translateX(10px); /* Dịch chuyển sang phải */
-}
 
-/* Danh sách dự án */
-.project-list, .container > div {
+/*
+======================================================
+5. Projects Section (3D Cards with Images)
+======================================================
+*/
+/* Combined selector for Project Grid */
+.project-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: 1fr;
     gap: 30px;
     margin-top: 30px;
 }
 
 .project-card {
-    background: white;
-    padding: 30px;
+    background: var(--background-card);
+    padding: 25px;
     border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
-    border-left: 5px solid #3498db;
-    opacity: 0; /* Khởi tạo cho hiệu ứng tải trang */
-    transform: translateY(20px); /* Khởi tạo cho hiệu ứng tải trang */
-    animation: cardFadeIn 0.8s forwards; /* Tải trang, sẽ được tùy chỉnh thêm bằng JS để có độ trễ */
+    box-shadow: 0 15px 30px var(--shadow-light);
+    border-left: 6px solid var(--primary-color);
+    transition: all 0.5s ease;
+    opacity: 0;
+    transform: perspective(1000px) rotateY(-5deg) translateY(20px);
+    animation: cardFadeIn var(--anim-duration) forwards;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Độ trễ tùy chỉnh cho từng thẻ (thêm class vào HTML nếu cần) */
-.project-list .project-card:nth-child(1) { animation-delay: 0.2s; }
-.project-list .project-card:nth-child(2) { animation-delay: 0.4s; }
-.project-list .project-card:nth-child(3) { animation-delay: 0.6s; }
-.project-list .project-card:nth-child(4) { animation-delay: 0.8s; }
-/* ... (tiếp tục cho các thẻ khác) */
+/* Apply staggered delay for professional look (adjust as needed) */
+.project-card:nth-child(1) { animation-delay: 0s; }
+.project-card:nth-child(2) { animation-delay: 0.1s; }
+.project-card:nth-child(3) { animation-delay: 0.2s; }
+.project-card:nth-child(4) { animation-delay: 0.3s; }
+.project-card:nth-child(5) { animation-delay: 0.4s; }
+.project-card:nth-child(6) { animation-delay: 0.5s; }
+.project-card:nth-child(7) { animation-delay: 0.6s; }
+.project-card:nth-child(8) { animation-delay: 0.7s; }
+.project-card:nth-child(9) { animation-delay: 0.8s; }
 
 
 .project-card:hover {
-    transform: translateY(-15px) rotate(1deg); /* Nâng thẻ lên và xoay nhẹ */
-    box-shadow: 0 20px 40px rgba(52, 152, 219, 0.4);
-    background: linear-gradient(145deg, #ffffff, #f7f9fc); /* Hiệu ứng gradient nhẹ */
+    transform: perspective(1000px) rotateY(0deg) translateY(-10px);
+    box-shadow: 0 20px 40px rgba(52, 152, 219, 0.6);
+    background: var(--background-card);
 }
 
 .project-card h3 {
-    color: #e74c3c;
-    margin-top: 0;
-    font-size: 1.5em;
-    border-bottom: 1px dashed #ecf0f1;
+    color: var(--text-dark);
+    font-weight: 700;
     padding-bottom: 10px;
-    transition: color 0.3s ease;
+    margin-bottom: 5px;
+    position: relative;
 }
 
-.project-card:hover h3 {
-    color: #2c3e50; /* Đổi màu tiêu đề khi hover */
+.project-card h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30px;
+    height: 3px;
+    background-color: var(--secondary-color);
+    transition: width 0.3s ease;
 }
 
-/* Nút bấm (Button) */
+.project-card:hover h3::after {
+    width: 60%;
+}
+
+/* Image Styling - Xóa max-height để khung mở rộng theo ảnh, thêm margin dưới */
+.project-card img {
+    margin-top: 15px;
+    margin-bottom: 15px; /* Thêm khoảng cách dưới ảnh */
+    width: 100%;
+    height: auto; /* Quan trọng: Xóa max-height để khung mở rộng theo ảnh */
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+}
+
+/* Tăng khoảng cách cho link Live Website */
+.project-card strong {
+    margin-top: 10px;
+    display: block;
+}
+
+/* Buttons (Flat/Sharp Design) */
 .btn {
     display: inline-block;
-    background: #e74c3c;
-    color: white;
-    padding: 12px 25px;
-    text-decoration: none;
-    border-radius: 30px;
-    margin-top: 15px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Hiệu ứng nảy */
+    /* CHỈNH SỬA: Giới hạn chiều rộng nút */
+    align-self: flex-start; /* Quan trọng: Giới hạn chiều rộng bằng nội dung */
+
+    background: var(--secondary-color);
+    color: var(--text-light);
+    padding: 10px 20px;
+    border-radius: 2px;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.5);
+    transition: all 0.4s ease-in-out;
     border: none;
+    text-decoration: none !important;
+    border-bottom: none !important;
+    margin-top: auto;
 }
 
 .btn:hover {
-    background: #c0392b;
-    transform: scale(1.05) translateY(-3px); /* Phóng to và nổi lên */
-    box-shadow: 0 10px 25px rgba(192, 57, 43, 0.8);
-    color: white;
-    border-bottom: none;
+    background: var(--primary-color);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(241, 196, 15, 0.7);
+    color: var(--dark-background);
 }
 
 .btn-primary {
     background: #2ecc71;
-    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+    box-shadow: 0 4px 10px rgba(46, 204, 113, 0.5);
 }
 
 .btn-primary:hover {
     background: #27ae60;
-    box-shadow: 0 10px 25px rgba(39, 174, 96, 0.8);
+    box-shadow: 0 8px 20px rgba(39, 174, 96, 0.7);
 }
 
-/* Footer */
+/* Utility Class */
+.mt-4 {
+    margin-top: 40px;
+}
+
+/*
+======================================================
+6. Footer
+======================================================
+*/
 footer {
     padding: 20px;
     margin-top: 50px;
     color: #bdc3c7;
-    background-color: #2c3e50;
+    background-color: var(--dark-background);
     text-align: center;
-    border-top: 5px solid #3498db;
-    animation: slideInBottom 1s ease-out; /* Tải trang cho footer */
+    border-top: 5px solid var(--primary-color);
+    animation: slideInBottom 1s ease-out;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    /* ... (Giữ nguyên phần responsive cơ bản) ... */
-    header nav {
-        flex-direction: column;
-        align-items: center;
-    }
-    header ul {
-        margin-top: 15px;
-    }
-    header li a {
-        padding: 5px 10px;
-        font-size: 14px;
-    }
-    .container {
-        width: 95%;
-    }
-    #about table, #about tr, #about td {
-        display: block;
-        width: 100%;
-        text-align: center;
-    }
-    #about table td:first-child {
-        width: 100%;
-    }
-    #about table td:last-child h1 {
-        text-align: center;
-    }
-    .project-list, .container > div {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Keyframes cho hiệu ứng lung linh */
+/*
+======================================================
+7. Keyframes & Animations
+======================================================
+*/
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -300,7 +341,6 @@ footer {
         transform: scale(0.8);
     }
     to {
-        opacity: 1;
         transform: scale(1);
     }
 }
@@ -318,7 +358,7 @@ footer {
 
 @keyframes slideInLeft {
     from {
-        transform: translateX(-100%);
+        transform: translateX(-100px);
         opacity: 0;
     }
     to {
@@ -341,13 +381,8 @@ footer {
 @keyframes cardFadeIn {
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: perspective(1000px) rotateY(0deg) translateY(0);
     }
-}
-
-/* Hiệu ứng nhấp nháy nhẹ cho logo (tùy chọn) */
-header .logo:hover {
-    animation: pulse 1s infinite;
 }
 
 @keyframes pulse {
@@ -359,5 +394,48 @@ header .logo:hover {
     }
     100% {
         text-shadow: 0 0 0 rgba(241, 196, 15, 0.7);
+    }
+}
+
+/*
+======================================================
+8. Responsive Design
+======================================================
+*/
+@media (max-width: 768px) {
+    header nav {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px 5%;
+    }
+    header ul {
+        margin-top: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    header li a {
+        font-size: 13px;
+        padding: 8px 10px;
+        margin: 0 3px;
+    }
+    header .logo {
+        font-size: 24px;
+    }
+    .container {
+        width: 95%;
+    }
+
+    .project-list {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    #projects h1 {
+        font-size: 2.5em;
+    }
+
+    /* Đảm bảo nút trên mobile không bị giới hạn chiều rộng quá mức */
+    .btn {
+        align-self: stretch; /* Choán hết chiều rộng thẻ trên mobile */
+        text-align: center;
     }
 }
